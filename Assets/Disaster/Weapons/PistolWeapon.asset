@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5da52331d6851534d838c37a32bcb850, type: 3}
+  m_Name: PistolWeapon
+  m_EditorClassIdentifier: 
+  damage: 25
+  knockbackImpulse: 50
+  distance: 1000
+  ammoCapacity: 7
+  shootTime: 0.0625
+  reloadTime: 1
+  weaponNameStringTranslation: {fileID: 11400000, guid: 52be7d8c9fa91ec42841a811fb92d5fa,
+    type: 2}
+  weaponIconSpriteTranslation: {fileID: 11400000, guid: 851534f7663a79744b056d294fded4ef,
+    type: 2}
+  bulletHoleAsset: {fileID: 3963121159192117230, guid: 78b36c63323c661458d0d14f70ade39b,
+    type: 3}
+  weaponAndHandsAsset: {fileID: 7298828783050138100, guid: 495b7d834e2a0c645ae521949a793c18,
+    type: 3}
+  projectileAsset: {fileID: 0}
