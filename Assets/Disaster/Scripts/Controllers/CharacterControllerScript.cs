@@ -134,13 +134,6 @@ namespace Disaster.Controllers
         [Range(0.0f, 1000.0f)]
         private float maximalFallDamageSpeed = 120.0f;
 
-        ///// <summary>
-        ///// In air or jumping movement multiplier
-        ///// </summary>
-        //[SerializeField]
-        //[Range(0.0f, 1.0f)]
-        //private float inAirOrJumpingMovementMultiplier = 0.75f;
-
         /// <summary>
         /// Height
         /// </summary>
@@ -176,10 +169,10 @@ namespace Disaster.Controllers
         private WeaponObjectScript weapon = default;
 
         /// <summary>
-        /// Virtual camera transform
+        /// Eyes transform
         /// </summary>
         [SerializeField]
-        private Transform virtualCameraTransform = default;
+        private Transform eyesTransform = default;
 
         /// <summary>
         /// Movement
@@ -220,16 +213,6 @@ namespace Disaster.Controllers
         /// Last weapon
         /// </summary>
         private WeaponObjectScript lastWeapon;
-
-        /// <summary>
-        /// Debug raycast hits count
-        /// </summary>
-        private int debugRaycastHitsCount;
-
-        ///// <summary>
-        ///// Debug movement direction
-        ///// </summary>
-        //private Vector3 debugMovementDirection = Vector3.forward;
 
         /// <summary>
         /// Movement speed
@@ -453,12 +436,12 @@ namespace Disaster.Controllers
         }
 
         /// <summary>
-        /// Virtual camera transform
+        /// Eyes transform
         /// </summary>
-        public Transform VirtualCameraTransform
+        public Transform EyesTransform
         {
-            get => virtualCameraTransform;
-            set => virtualCameraTransform = value;
+            get => eyesTransform;
+            set => eyesTransform = value;
         }
 
         /// <summary>
@@ -556,9 +539,9 @@ namespace Disaster.Controllers
                 {
                     elapsedShootTime = 0.0f;
                     ++ShotsFired;
-                    if ((virtualCameraTransform != null) && (weapon.Distance > float.Epsilon))
+                    if ((eyesTransform != null) && (weapon.Distance > float.Epsilon))
                     {
-                        int raycast_hits_count = PhysicsUtils.Raycast(virtualCameraTransform.position, virtualCameraTransform.forward, weapon.Distance, ref raycastHits);
+                        int raycast_hits_count = PhysicsUtils.Raycast(eyesTransform.position, eyesTransform.forward, weapon.Distance, ref raycastHits);
                         RaycastHit? nearest_valid_raycast_hit = null;
                         for (int raycast_hits_index = 0; raycast_hits_index < raycast_hits_count; raycast_hits_index++)
                         {
@@ -610,7 +593,7 @@ namespace Disaster.Controllers
                                 Rigidbody rigidbody = game_object.GetComponent<Rigidbody>();
                                 if (rigidbody != null)
                                 {
-                                    rigidbody.AddForceAtPosition(virtualCameraTransform.forward * weapon.KnockbackImpulse, raycast_hit.point, ForceMode.Impulse);
+                                    rigidbody.AddForceAtPosition(eyesTransform.forward * weapon.KnockbackImpulse, raycast_hit.point, ForceMode.Impulse);
                                 }
                                 if (game_object.transform.parent == null)
                                 {
@@ -648,9 +631,9 @@ namespace Disaster.Controllers
         /// </summary>
         public void Interact()
         {
-            if (IsAlive && (virtualCameraTransform != null))
+            if (IsAlive && (eyesTransform != null))
             {
-                int raycast_hits_count = PhysicsUtils.Raycast(virtualCameraTransform.position, virtualCameraTransform.forward, InteractionDistance, ref raycastHits);
+                int raycast_hits_count = PhysicsUtils.Raycast(eyesTransform.position, eyesTransform.forward, InteractionDistance, ref raycastHits);
                 RaycastHit? nearest_valid_raycast_hit = null;
                 for (int raycast_hits_index = 0; raycast_hits_index < raycast_hits_count; raycast_hits_index++)
                 {
@@ -752,7 +735,6 @@ namespace Disaster.Controllers
             bool is_on_ground = false;
             float rotation_stiffness = RotationStiffness;
             float damage_per_second = 0.0f;
-            debugRaycastHitsCount = raycast_hits_count;
             for (int raycast_hits_index = 0; raycast_hits_index < raycast_hits_count; raycast_hits_index++)
             {
                 RaycastHit raycast_hit = raycastHits[raycast_hits_index];
@@ -859,9 +841,9 @@ namespace Disaster.Controllers
             if (IsAlive)
             {
                 Quaternion children_local_rotation = Quaternion.Euler(rotation.x, 0.0f, 0.0f);
-                if (virtualCameraTransform != null)
+                if (eyesTransform != null)
                 {
-                    virtualCameraTransform.localRotation = Quaternion.Lerp(virtualCameraTransform.localRotation, children_local_rotation, rotation_stiffness);
+                    eyesTransform.localRotation = Quaternion.Lerp(eyesTransform.localRotation, children_local_rotation, rotation_stiffness);
                 }
                 if (WeaponAndHandsAnimator != null)
                 {
@@ -915,13 +897,11 @@ namespace Disaster.Controllers
                     normal = Vector3.one;
                 }
                 float collision_speed = Vector3.Dot(normal, collision.relativeVelocity);
-                Debug.Log("Collision speed: " + collision_speed);
                 if (collision_speed >= minimal_fall_damage_speed)
                 {
                     float damage_speed_delta = MaximalFallDamageSpeed - minimal_fall_damage_speed;
                     float fall_damage = Mathf.Lerp(MinimalFallDamage, MaximalFallDamage, ((damage_speed_delta > float.Epsilon) ? Mathf.Clamp((collision_speed - minimal_fall_damage_speed) / damage_speed_delta, 0.0f, 1.0f) : 1.0f));
                     Health -= fall_damage;
-                    Debug.Log("Fall damage: " + fall_damage);
                 }
             }
         }

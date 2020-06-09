@@ -1,4 +1,6 @@
 ﻿using Disaster.InputActions;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -12,6 +14,11 @@ namespace Disaster.Controllers
     [RequireComponent(typeof(CharacterControllerScript))]
     public class PlayerControllerScript : MonoBehaviour, IPlayerController
     {
+        /// <summary>
+        /// Player controllers
+        /// </summary>
+        private static readonly List<PlayerControllerScript> playerControllers = new List<PlayerControllerScript>();
+
         /// <summary>
         /// View mode
         /// </summary>
@@ -29,6 +36,11 @@ namespace Disaster.Controllers
         /// </summary>
         [SerializeField]
         private GameObject thirdPersonViewVirtualCameraGameObject;
+
+        /// <summary>
+        /// Player controllers
+        /// </summary>
+        public static IReadOnlyList<PlayerControllerScript> PlayerControllers => playerControllers;
 
         /// <summary>
         /// View mode
@@ -161,6 +173,7 @@ namespace Disaster.Controllers
             GameInputActions?.Enable();
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
+            playerControllers.Add(this);
         }
 
         /// <summary>
@@ -171,6 +184,7 @@ namespace Disaster.Controllers
             GameInputActions?.Disable();
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+            playerControllers.Remove(this);
         }
 
         /// <summary>

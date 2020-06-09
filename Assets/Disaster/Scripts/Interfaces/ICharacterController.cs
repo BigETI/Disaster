@@ -117,9 +117,9 @@ namespace Disaster
         WeaponObjectScript Weapon { get; set; }
 
         /// <summary>
-        /// Virtual camera transform
+        /// Eyes transform
         /// </summary>
-        Transform VirtualCameraTransform { get; set; }
+        Transform EyesTransform { get; set; }
 
         /// <summary>
         /// Movement
