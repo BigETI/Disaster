@@ -47,19 +47,5 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  },
-  "lock": {
-    "com.bigeti.save-game": {
-      "revision": "HEAD",
-      "hash": "a85dd2868471b53f9b3ab3645c2c39d8f4fce1c8"
-    },
-    "com.bigeti.translator": {
-      "revision": "HEAD",
-      "hash": "075e788943fefaadb6f7448f2570b4cc094a850c"
-    },
-    "com.bigeti.timing": {
-      "revision": "HEAD",
-      "hash": "a958207e245ca79bfa1eb3027f2e72ff32315d94"
-    }
   }
 }
